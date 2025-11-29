@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  app:
+    build: .
+    container_name: fantasy_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/fantasy
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+
+  db:
+    image: postgres:15
+    container_name: fantasy_db
+    environment:
+      POSTGRES_DB: fantasy
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - fantasy_data:/var/lib/postgresql/data
+
+volumes:
+  fantasy_data:
